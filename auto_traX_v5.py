@@ -132,6 +132,7 @@ with mss() as screenshot:
     tasks = Queue()
     thread = Thread(target=process_key, args=(tasks, ))
     thread.start()
+    min_speed = 6
     _speed = 6
     speed_timer = perf_counter()
 
@@ -151,7 +152,7 @@ with mss() as screenshot:
         obstacle_mask_down = res_img[obstacle_coords_down[0][1] : obstacle_coords_down[1][1], obstacle_coords_down[0][0] : obstacle_coords_down[1][0]]
 
         temp = calc_speed(res_img)
-        if temp and temp - _speed < 2:
+        if temp and temp - _speed < 3 and temp >= min_speed:
             _speed = temp
             if perf_counter() -  speed_timer > 15:
                 speed_timer = perf_counter()
